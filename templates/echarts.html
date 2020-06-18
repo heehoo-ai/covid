@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+    <h3 class="title" style="text-align: center">数据视图</h3>
+           <div id="container" style="width:100%;height:400px"></div>
+           <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
+           <script type="text/javascript" src="{% static 'js/jquery.ba-resize.js' %}"></script>
+           <script type="text/javascript">
+
+
+    var dom = document.getElementById("container");
+
+    var myChart = echarts.init(dom);
+
+    var app = {};
+    option = null;
+
+    var posList = [
+        'left', 'right', 'top', 'bottom',
+        'inside',
+        'insideTop', 'insideLeft', 'insideRight', 'insideBottom',
+        'insideTopLeft', 'insideTopRight', 'insideBottomLeft', 'insideBottomRight'
+    ];
+
+    app.configParameters = {
+        rotate: {
+            min: -90,
+            max: 90
+        },
+        align: {
+            options: {
+                left: 'left',
+                center: 'center',
+                right: 'right'
+            }
+        },
+        verticalAlign: {
+            options: {
+                top: 'top',
+                middle: 'middle',
+                bottom: 'bottom'
+            }
+        },
+        position: {
+            options: echarts.util.reduce(posList, function (map, pos) {
+                map[pos] = pos;
+                return map;
+            }, {})
+        },
+        distance: {
+            min: 0,
+            max: 100
+        }
+    };
+
+    app.config = {
+        rotate: 90,
+        align: 'left',
+        verticalAlign: 'middle',
+        position: 'insideBottom',
+        distance: 15,
+        onChange: function () {
+            var labelOption = {
+                normal: {
+                    rotate: app.config.rotate,
+                    align: app.config.align,
+                    verticalAlign: app.config.verticalAlign,
+                    position: app.config.position,
+                    distance: app.config.distance
+                }
+            };
+            myChart.setOption({
+                series: [{
+                    label: labelOption
+                }, {
+                    label: labelOption
+                }, {
+                    label: labelOption
+                }, {
+                    label: labelOption
+                }]
+            });
+        }
+    };
+
+
+    var labelOption = {
+        show: true,
+        position: app.config.position,
+        distance: app.config.distance,
+        align: app.config.align,
+        verticalAlign: app.config.verticalAlign,
+        rotate: app.config.rotate,
+        formatter: '{c}  {name|{a}}',
+        fontSize: 16,
+        rich: {
+            name: {
+                textBorderColor: '#fff'
+            }
+        }
+    };
+
+option = {
+    backgroundColor: '#05163B',
+    tooltip: {
+        trigger: 'axis'
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            mark: {
+                show: true
+            },
+            dataView: {
+                show: true,
+                readOnly: false
+            },
+            magicType: {
+                show: true,
+                type: ['line', 'bar']
+            },
+            restore: {
+                show: true
+            },
+            saveAsImage: {
+                show: true
+            }
+        }
+    },
+    grid: {
+        top: 'middle',
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        top: '10%',
+        containLabel: true
+    },
+    legend: {
+        data: ['频模', '温度'],
+        textStyle: {
+            color: "#fff"
+        }
+
+    },
+    xAxis: [{
+        type: 'category',
+        data: {{ date|safe }},
+        axisLabel: {
+            show: true,
+            textStyle: {
+                color: "#ebf8ac" //X轴文字颜色
+            }
+        },
+        axisLine: {
+            lineStyle: {
+                color: '#01FCE3'
+            }
+        },
+    }],
+    yAxis: [{
+            type: 'value',
+            name: '模数F(digit)',
+            axisLabel: {
+                formatter: '{value} ',
+                textStyle: {
+                    color: "#2EC7C9" //X轴文字颜色
+                }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#01FCE3'
+                }
+            },
+        },
+        {
+            type: 'value',
+            name: '温度',
+            axisLabel: {
+                formatter: '{value} °C',
+                textStyle: {
+                    color: "#2EC7C9" //X轴文字颜色
+                }
+            }
+        }
+    ],
+    series: [
+        {
+            name: '频模',
+            type: 'line',
+            yAxisIndex: 0,
+            data: {{ r1 }},
+            lineStyle: {
+                normal: {
+                    width: 5,
+                    color: {
+                        type: 'linear',
+
+                        colorStops: [{
+                                offset: 0,
+                                color: '#AAF487' // 0% 处的颜色
+                            },
+                            {
+                                offset: 0.4,
+                                color: '#47D8BE' // 100% 处的颜色
+                            }, {
+                                offset: 1,
+                                color: '#47D8BE' // 100% 处的颜色
+                            }
+                        ],
+                        globalCoord: false // 缺省为 false
+                    },
+                    shadowColor: 'rgba(71,216,190, 0.5)',
+                    shadowBlur: 10,
+                    shadowOffsetY: 7
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#AAF487',
+                    borderWidth: 10,
+                    /*shadowColor: 'rgba(72,216,191, 0.3)',
+                     shadowBlur: 100,*/
+                    borderColor: "#AAF487"
+                }
+            },
+            smooth: true,
+        },
+        {
+            name: '温度',
+            type: 'bar',
+            yAxisIndex: 1,
+            itemStyle: {
+                normal: {
+                    barBorderRadius: 5,
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: "#00FFE3"
+                        },
+                        {
+                            offset: 1,
+                            color: "#4693EC"
+                        }
+                    ])
+                }
+            },
+            data: {{ r2 }},
+        },
+
+    ]
+};
+
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+           </script>
+{% endblock %}
+

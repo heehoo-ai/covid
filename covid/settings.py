@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'echart',
+    'excel_prj',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# 文件上传配置
+# UPLOAD_ROOT = os.path.join(BASE_DIR, 'upload/')
+# 文件上传配置
+MEDIA_ROOT = os.path.join(BASE_DIR, 'upload/')
+MEDIA_URL = '/upload/'
+UPLOAD_ROOT = os.path.join(BASE_DIR, 'upload/')

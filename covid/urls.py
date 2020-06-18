@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path, re_path
 
 from echart.views import index
+from excel_prj.views import upload, tablelist, echarts
 
 urlpatterns = [
-    re_path('^$', index, name='index'),
+    re_path('^$', echarts, name='echarts'),
+    re_path(r'^upload/', upload, name='upload'),
+    re_path(r'^result/', tablelist, name='table'),
     path('admin/', admin.site.urls),
 
 ]
