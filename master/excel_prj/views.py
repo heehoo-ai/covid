@@ -1,34 +1,32 @@
 import os
 import datetime
+from django.contrib import messages
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from xlrd import xldate_as_datetime
 
 from covid import settings
+from covid.settings import MEDIA_ROOT
 from excel_prj import models
+from excel_prj.forms import FileForm
+from excel_prj.models import Sensor
 import xlrd
 
 
 # 将excel数据写入mysql
-from excel_prj.models import Sensor
-
-
 def wrdb(filename):
     # 打开上传 excel 表格
     readboot = xlrd.open_workbook(settings.UPLOAD_ROOT + "/" + filename)
-    sheet_indx = 0
-    sheet = readboot.sheet_by_index(sheet_indx)
+    sheet = readboot.sheet_by_index(0)
     #获取excel的行和列
     nrows = sheet.nrows
     ncols = sheet.ncols
-    sensor_name = readboot.sheet_names()[sheet_indx]
-    id = models.Sensor.objects.get(name=sensor_name).id
-    print(id)
-    # print(ncols,nrows,name)
+    print(ncols,nrows)
     # ObservationDate = xldate_as_datetime(row[0], 0).strftime('%Y%m%d'),
     # 控制数据库事务交易
     with transaction.atomic():
@@ -36,7 +34,6 @@ def wrdb(filename):
             row = sheet.row_values(i)
             models.SensorData.objects.create(
                 ObservationDate=xldate_as_datetime(row[0],0),
-                sensor_id=id,
                 R1=float(row[1]),
                 R2=float(row[2]),
                 F1=float(row[3]),
@@ -44,14 +41,10 @@ def wrdb(filename):
             )
 
 
-def tablelist(request, sensor_id=None):
-    sensors = Sensor.objects.filter(isShow=Sensor.SHOW)
-    if sensor_id:
-        datalist = models.SensorData.objects.filter(sensor_id=sensor_id).values('sensor__name', 'ObservationDate', 'R1', 'R2', 'F1', 'F2')
-    else:
-        datalist = models.SensorData.objects.all().values('sensor__name', 'ObservationDate', 'R1', 'R2', 'F1', 'F2')
-    # print(datalist)
-    return render(request, "dataList.html", {'datalist': datalist, 'sensors': sensors})
+def tablelist(request):
+    datalist = models.SensorData.objects.all().values('ObservationDate', 'R1', 'R2', 'F1', 'F2')
+    print(datalist)
+    return render(request, "dataList.html", {'datalist': datalist})
 
 
 def echarts(request):
@@ -78,6 +71,7 @@ def echarts(request):
 
 @csrf_exempt
 def upload(request):
+
     file = request.FILES.get('datafile')
     # 创建upload文件夹
     if not os.path.exists(settings.UPLOAD_ROOT):

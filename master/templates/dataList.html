@@ -2,19 +2,6 @@
 
 {% block content %}
 
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    请选择测点
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      {% for sensor in sensors %}
-        <a class="dropdown-item" href="{% url 'table' sensor.id %}">{{ sensor.name }}</a>
-      {% endfor %}
-
-  </div>
-</div>
-
-
 <div class="row justify-content-center">
         <div class="col-xs-12">
           <div class="box">
@@ -26,7 +13,6 @@
               <table id="datatable" class="table table-hover" >
                 <thead>
                 <tr>
-                    <th style='text-align: center;'>测点名称</th>
                     <th style='text-align: center;'>观测日期</th>
                     <th style='text-align: center;'>频模(Digit)</th>
                     <th style='text-align: center;'>温度（℃）</th>
@@ -38,7 +24,6 @@
                 <tbody>
                 {% for data in datalist %}
                 <tr class="text-center">
-                    <td>{{ data.sensor__name}}</td>
                     <td>{{ data.ObservationDate }}</td>
                     <td>{{ data.R1 }}</td>
                     <td>{{ data.R2 }}</td>
@@ -53,6 +38,4 @@
           </div>
         </div>
       </div>
-
-
 {% endblock %}
