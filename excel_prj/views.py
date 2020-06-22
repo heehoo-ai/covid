@@ -48,7 +48,6 @@ def wrdb(filename):
                 )
 
 
-
 def tablelist(request, sensor_id=None):
     sensors = Sensor.objects.filter(isShow=Sensor.SHOW)
     if sensor_id:
@@ -59,13 +58,19 @@ def tablelist(request, sensor_id=None):
     return render(request, "dataList.html", {'datalist': datalist, 'sensors': sensors})
 
 
-def echarts(request):
-    datalist = models.SensorData.objects.all()
+def echarts(request, sensor_id=None):
+    if sensor_id:
+        datalist = models.SensorData.objects.filter(sensor_id=sensor_id)
+    else:
+        datalist = models.SensorData.objects.filter(sensor_id=1)
+
+    sensors = Sensor.objects.filter(isShow=Sensor.SHOW)
     date_list = []
     r1_list = []
     r2_list = []
 
     for data in datalist:
+        print(data)
         time_info = datetime.datetime.strftime(data.ObservationDate, "%Y-%m-%d")
         date_list.append(time_info)
         r1_list.append(data.R1)
@@ -75,6 +80,7 @@ def echarts(request):
         'date': date_list,
         'r1': r1_list,
         'r2': r2_list,
+        'sensors': sensors,
 
     }
 

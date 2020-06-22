@@ -25,6 +25,7 @@ urlpatterns = [
     re_path(r'^echart/', echarts, name='echarts'),
     re_path(r'^result/', tablelist, name='table'),
     re_path(r'^sensor/(?P<sensor_id>\d+)/$', tablelist, name='table'),
+    re_path(r'^point/(?P<sensor_id>\d+)/$', echarts, name='point-echarts'),
     path('admin/', admin.site.urls),
 
 ]

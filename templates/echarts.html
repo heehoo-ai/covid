@@ -1,8 +1,20 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block content %}
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    请选择测点
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {% for sensor in sensors %}
+        <a class="dropdown-item" href="{% url 'point-echarts' sensor.id %}">{{ sensor.name }}</a>
+      {% endfor %}
 
-    <h3p class="title" style="text-align: center">数据视图</h3p>
+  </div>
+</div>
+
+    <h3 class="title" style="text-align: center">数据视图</h3>
+
            <div id="container" style="width:100%;height:400px"></div>
            <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
            <script type="text/javascript" src="{% static 'js/jquery.ba-resize.js' %}"></script>
@@ -160,7 +172,7 @@ option = {
     }],
     yAxis: [{
             type: 'value',
-            name: '模数F(digit)',
+            name: '模数(digit)',
             axisLabel: {
                 formatter: '{value} ',
                 textStyle: {
