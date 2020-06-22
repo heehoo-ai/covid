@@ -3,8 +3,9 @@ import datetime
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-
+from django.urls import reverse
 # Create your views here.
+
 from django.views.decorators.csrf import csrf_exempt
 from xlrd import xldate_as_datetime
 
@@ -20,28 +21,32 @@ from excel_prj.models import Sensor
 def wrdb(filename):
     # 打开上传 excel 表格
     readboot = xlrd.open_workbook(settings.UPLOAD_ROOT + "/" + filename)
-    sheet_indx = 0
-    sheet = readboot.sheet_by_index(sheet_indx)
-    #获取excel的行和列
-    nrows = sheet.nrows
-    ncols = sheet.ncols
-    sensor_name = readboot.sheet_names()[sheet_indx]
-    id = models.Sensor.objects.get(name=sensor_name).id
-    print(id)
-    # print(ncols,nrows,name)
-    # ObservationDate = xldate_as_datetime(row[0], 0).strftime('%Y%m%d'),
-    # 控制数据库事务交易
-    with transaction.atomic():
-        for i in range(2, nrows):
-            row = sheet.row_values(i)
-            models.SensorData.objects.create(
-                ObservationDate=xldate_as_datetime(row[0],0),
-                sensor_id=id,
-                R1=float(row[1]),
-                R2=float(row[2]),
-                F1=float(row[3]),
-                F2=float(row[4]),
-            )
+    # 获取所有sheet工作表名称
+    sheetnames = readboot.sheet_names()
+    print(len(sheetnames))
+    for sheetname in sheetnames:
+        print(sheetname)
+        sheet = readboot.sheet_by_name(sheetname)
+        # 获取excel的行和列
+        nrows = sheet.nrows
+        ncols = sheet.ncols
+        sensor_name = sheetname
+        id = models.Sensor.objects.get(name=sensor_name).id
+        # print(ncols,nrows,name)
+        # ObservationDate = xldate_as_datetime(row[0], 0).strftime('%Y%m%d'),
+        # 控制数据库事务交易
+        with transaction.atomic():
+            for i in range(2, nrows):
+                row = sheet.row_values(i)
+                models.SensorData.objects.create(
+                    ObservationDate=xldate_as_datetime(row[0], 0),
+                    sensor_id=id,
+                    R1=float(row[1]),
+                    R2=float(row[2]),
+                    F1=float(row[3]),
+                    F2=float(row[4]),
+                )
+
 
 
 def tablelist(request, sensor_id=None):
@@ -94,7 +99,9 @@ def upload(request):
     except Exception as e:
         return HttpResponse(e)
     wrdb(file.name)
-    return HttpResponse('上传并导入成功')
+    # return HttpResponse('上传并导入成功')
+    return HttpResponseRedirect(reverse('table'))
+
 
 
 
