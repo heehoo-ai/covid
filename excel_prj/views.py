@@ -1,9 +1,12 @@
 import os
 import datetime
+import pandas as pd
+from pandas import to_datetime
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+
 # Create your views here.
 
 from django.views.decorators.csrf import csrf_exempt
@@ -51,30 +54,37 @@ def wrdb(filename):
 def tablelist(request, sensor_id=None):
     sensors = Sensor.objects.filter(isShow=Sensor.SHOW)
     if sensor_id:
-        datalist = models.SensorData.objects.filter(sensor_id=sensor_id).values('sensor__name', 'ObservationDate', 'R1', 'R2', 'F1', 'F2')
+        q = models.SensorData.objects.filter(sensor_id=sensor_id).values('sensor__name', 'ObservationDate', 'R1', 'R2', 'F1', 'F2')
+        df = pd.DataFrame.from_records(q)
+        datalist = df.values.tolist()
     else:
         datalist = models.SensorData.objects.all().values('sensor__name', 'ObservationDate', 'R1', 'R2', 'F1', 'F2')
-    # print(datalist)
-    return render(request, "dataList.html", {'datalist': datalist, 'sensors': sensors})
+    return render(request, "dataList.html", {'datalist': datalist, 'sensors': sensors, 'sensor_id':sensor_id})
 
 
 def echarts(request, sensor_id=None):
-    if sensor_id:
-        datalist = models.SensorData.objects.filter(sensor_id=sensor_id)
-    else:
-        datalist = models.SensorData.objects.filter(sensor_id=1)
-
-    sensors = Sensor.objects.filter(isShow=Sensor.SHOW)
     date_list = []
     r1_list = []
     r2_list = []
+    sensors = Sensor.objects.filter(isShow=Sensor.SHOW)
 
-    for data in datalist:
-        print(data)
-        time_info = datetime.datetime.strftime(data.ObservationDate, "%Y-%m-%d")
-        date_list.append(time_info)
-        r1_list.append(data.R1)
-        r2_list.append(data.R2)
+    if sensor_id:
+        q = models.SensorData.objects.filter(sensor_id=sensor_id).values('ObservationDate', 'R1', 'R2')
+        df = pd.DataFrame.from_records(q)
+        d = df['ObservationDate'].apply(lambda x: datetime.datetime.strftime(x, "%Y-%m-%d"))
+        date_list = d.values.tolist()
+        print(date_list)
+        r1_list = df.R1.values.tolist()
+        r2_list = df['R2'].values.tolist()
+    else:
+        datalist = models.SensorData.objects.filter(sensor_id=1)
+        for data in datalist:
+            time_info = datetime.datetime.strftime(data.ObservationDate, "%Y-%m-%d")
+            date_list.append(time_info)
+            r1_list.append(data.R1)
+            r2_list.append(data.R2)
+
+    print(date_list)
 
     context = {
         'date': date_list,

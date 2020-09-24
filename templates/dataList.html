@@ -36,7 +36,18 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 {% for data in datalist %}
+                {% if sensor_id %}
+                <tr class="text-center">
+                    <td>{{ data.0 }}</td>
+                    <td>{{ data.1 }}</td>
+                    <td>{{ data.2|floatformat:"2" }}</td>
+                    <td>{{ data.3|floatformat:"2" }}</td>
+                    <td>{{ data.4|floatformat:"2" }}</td>
+                    <td>{{ data.5|floatformat:"2" }}</td>
+                </tr>
+                {% else %}
                 <tr class="text-center">
                     <td>{{ data.sensor__name}}</td>
                     <td>{{ data.ObservationDate }}</td>
@@ -45,6 +56,8 @@
                     <td>{{ data.F1|floatformat:"2"  }}</td>
                     <td>{{ data.F2|floatformat:"2"  }}</td>
                 </tr>
+                    {% endif %}
+
                 {% endfor %}
                 </tbody>
               </table>

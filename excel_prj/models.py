@@ -1,9 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
-
-
 
 class Sensor(models.Model):
     SHOW = 1

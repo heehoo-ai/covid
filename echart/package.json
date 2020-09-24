@@ -1,0 +1,22 @@
+{
+  "name": "echart",
+  "version": "1.0.0",
+  "dependencies": {
+{'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 2, 4, 0, tzinfo=<UTC>), 'R1': 4361.0, 'R2': 8.2, 'F1': -3.82, 'F2': 749.61},
+{'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 3, 4, 0, tzinfo=<UTC>), 'R1': 5361.0, 'R2': 7.3, 'F1': -3.07, 'F2': 749.69}, {'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 4, 4, 0, tzinfo=<UTC>), 'R1': 5661
+.0, 'R2': 6.8, 'F1': -3.66, 'F2': 749.63}, {'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 5, 4, 0, tzinfo=<UTC>), 'R1': 6061.0, 'R2': 5.5, 'F1': -3.17, 'F2': 749.68}, {'sensor__name
+': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 6, 4, 0, tzinfo=<UTC>), 'R1': 6861.0, 'R2': 5.2, 'F1': -3.1, 'F2': 749.68}, {'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 7,
+4, 0, tzinfo=<UTC>), 'R1': 7861.0, 'R2': 4.8, 'F1': -4.02, 'F2': 749.59}, {'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 8, 4, 0, tzinfo=<UTC>), 'R1': 9361.0, 'R2': 4.2, 'F1': -3.57
+, 'F2': 749.64}, {'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 9, 4, 0, tzinfo=<UTC>), 'R1': 7461.0, 'R2': 5.3, 'F1': -4.07, 'F2': 749.58}, {'sensor__name': 'P4', 'ObservationDate'
+: datetime.datetime(2020, 5, 10, 4, 0, tzinfo=<UTC>), 'R1': 6661.0, 'R2': 5.9, 'F1': -4.45, 'F2': 749.55}, {'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 11, 4, 0, tzinfo=<UTC>), 'R
+1': 4661.0, 'R2': 6.3, 'F1': -5.61, 'F2': 749.43}, {'sensor__name': 'P4', 'ObservationDate': datetime.datetime(2020, 5, 12, 4, 0, tzinfo=<UTC>), 'R1': 5461.0, 'R2': 4.3, 'F1': -4.38, 'F2': 749.55}, {'sen
+sor__name': 'P3', 'ObservationDate': datetime.datetime(2020, 3, 2, 4, 0, tzinfo=<UTC>), 'R1': 4500.0, 'R2': 7.799999999999999, 'F1': -1.01, 'F2': 749.9}, {'sensor__name': 'P3', 'ObservationDate': datetim
+e.datetime(2020, 3, 3, 4, 0, tzinfo=<UTC>), 'R1': 5500.0, 'R2': 6.8999999999999995, 'F1': -0.79, 'F2': 749.92}, {'sensor__name': 'P3', 'ObservationDate': datetime.datetime(2020, 3, 4, 4, 0, tzinfo=<UTC>)
+, 'R1': 5800.0, 'R2': 6.3999999999999995, 'F1': -0.95, 'F2': 749.9}, {'sensor__name': 'P3', 'ObservationDate': datetime.datetime(2020, 3, 5, 4, 0, tzinfo=<UTC>), 'R1': 6200.0, 'R2': 5.1, 'F1': -2.0, 'F2'
+: 749.8}, {'sensor__name': 'P3', 'ObservationDate': datetime.datetime(2020, 3, 6, 4, 0, tzinfo=<UTC>), 'R1': 7000.0, 'R2': 4.8, 'F1': -2.1, 'F2': 749.79}, {'sensor__name': 'P3', 'ObservationDate': dateti
+me.datetime(2020, 3, 7, 4, 0, tzinfo=<UTC>), 'R1': 8000.0, 'R2': 4.3999999999999995, 'F1': -2.15, 'F2': 749.78}, {'sensor__name': 'P3', 'ObservationDate': datetime.datetime(2020, 3, 8, 4, 0, tzinfo=<UTC>
+), 'R1': 9500.0, 'R2': 3.8000000000000003, 'F1': -1.89, 'F2': 749.81}, {'sensor__name': 'P3', 'ObservationDate': datetime.datetime(2020, 3, 9, 4, 0, tzinfo=<UTC>), 'R1': 7600.0, 'R2': 4.8999999999999995,
+ 'F1': -1.38, 'F2': 749.86},
+
+  }
+}
